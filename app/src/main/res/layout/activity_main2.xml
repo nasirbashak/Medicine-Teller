@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#807d79"
+    tools:context="com.nasirbashak007.textrecognition.Main2Activity">
+
+
+    <TextView
+        android:layout_width="250dp"
+        android:layout_height="100dp"
+        android:gravity="center"
+        android:layout_marginTop="100dp"
+        android:textColor="#2562ff"
+        android:textStyle="bold"
+        android:layout_gravity="center"
+        android:text="Text Recognition"
+        android:background="#00ffc125"
+        android:textSize="30dp"/>
+
+
+    <TextView
+        android:layout_width="250dp"
+        android:layout_height="100dp"
+        android:gravity="center"
+        android:layout_marginTop="100dp"
+        android:textColor="#ffc125"
+        android:textStyle="bold"
+        android:background="#002562ff"
+        android:layout_gravity="center"
+        android:text="Launch Camera"
+        android:onClick="openCamera"
+        android:textSize="30dp"/>
+
+</LinearLayout>
