@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.speech.tts.TextToSpeech;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +16,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.Detector;
@@ -23,6 +25,7 @@ import com.google.android.gms.vision.text.TextRecognizer;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -32,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
     CameraSource cameraSource;
     StringBuilder stringBuilder;
     boolean flag = false;
+
+    TextToSpeech tts;
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -64,6 +69,22 @@ public class MainActivity extends AppCompatActivity {
 
         cameraView = (SurfaceView) findViewById(R.id.surface_view);
         textView = (TextView) findViewById(R.id.text_view);
+
+        tts = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int i) {
+
+                if(i != TextToSpeech.ERROR)
+                    tts.setLanguage(Locale.US);
+
+            }
+        });
+
+
+
+
+
+
 
         TextRecognizer textRecognizer = new TextRecognizer.Builder(getApplicationContext()).build();
 
@@ -146,11 +167,19 @@ public class MainActivity extends AppCompatActivity {
 
                                 }
                                 textView.setText(stringBuilder.toString());
-                                
+                                tts.speak(stringBuilder.toString(),TextToSpeech.QUEUE_FLUSH,null,null);
+                                if(tts.isSpeaking()){
+                                    Toast.makeText(getApplicationContext(),"speaking",Toast.LENGTH_SHORT).show();
+                                }else{
+                                    Toast.makeText(getApplicationContext(),"not speaking",Toast.LENGTH_SHORT).show();
+                                }
+
                             }
                         });
 
                     } else {
+                        tts.stop();
+                        tts.speak("Text not found",TextToSpeech.QUEUE_FLUSH,null,null);
                         textView.setText("not Detected");
                     }
                 }
@@ -166,6 +195,14 @@ public class MainActivity extends AppCompatActivity {
         finish();
         startActivity(intent);
 
+    }
+/*
+    public void onPause(){
+        if(tts !=null){
+            tts.stop();
+            tts.shutdown();
+        }
+        super.onPause();
     }
 
 
